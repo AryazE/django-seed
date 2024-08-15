@@ -40,7 +40,12 @@ jobs:
           pip install -q Django==${{ matrix.django-version }}
           pip install -r requirements-test.txt
           pip install -q -e .
+      - name: Instrument code
+        uses: AryazE/auto-dylin/instrument@main
       - name: Run tests
         run: |
           python runtests.py
           python runtests.py --database=postgres
+      - name: Report results
+        if: always()
+        uses: AryazE/auto-dylin/report@main

@@ -34,6 +34,8 @@ jobs:
           cat .github/workflows/bootcamp/test-settings.py >> ../bootcamp/config/settings/test.py
           cp ../bootcamp/.env.example ../bootcamp/.env
           python ../bootcamp/manage.py migrate --settings config.settings.test
+      - name: Instrument code
+        uses: AryazE/auto-dylin/instrument@main
       - name: Run tests
         run: |
           python ../bootcamp/manage.py seed news --settings config.settings.test
@@ -42,6 +44,9 @@ jobs:
           python ../bootcamp/manage.py seed users --settings config.settings.test
           python ../bootcamp/manage.py seed notifications --settings config.settings.test
           python ../bootcamp/manage.py seed qa --settings config.settings.test
+      - name: Report results
+        if: always()
+        uses: AryazE/auto-dylin/report@main
 
   django-crm-test:
     runs-on: ubuntu-latest
